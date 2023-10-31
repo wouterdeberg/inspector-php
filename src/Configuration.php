@@ -49,6 +49,16 @@ class Configuration
     protected $options = [];
 
     /**
+     * Hide headers from request.
+     */
+    protected $hiddenHeaders  = [];
+
+    /**
+     * Hide cookies from request.
+     */
+    protected $hiddenCookies = [];
+
+    /**
      * Environment constructor.
      *
      * @param null|string $ingestionKey
@@ -244,6 +254,28 @@ class Configuration
     public function setVersion($value): Configuration
     {
         $this->version = $value;
+        return $this;
+    }
+
+    public function getHiddenHeaders()
+    {
+        return $this->hiddenHeaders;
+    }
+
+    public function setHiddenHeaders($value)
+    {
+        $this->hiddenHeaders = $value;
+        return $this;
+    }
+
+    public function getHiddenCookies()
+    {
+        return $this->hiddenCookies;
+    }
+
+    public function setHiddenCookies($value)
+    {
+        $this->hiddenCookies = $value;
         return $this;
     }
 }

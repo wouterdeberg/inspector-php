@@ -96,6 +96,33 @@ class Inspector
         $this->transaction = new Transaction($name);
         $this->transaction->start();
 
+        if (
+            $this->transaction &&
+            $this->transaction->http &&
+            $this->transaction->http->request &&
+            $this->transaction->http->request->headers &&
+            count($this->configuration->getHiddenHeaders()) > 0
+        ) {
+            foreach ($this->transaction->http->request->headers as $key => $header) {
+                if (in_array($key, $this->configuration->getHiddenHeaders())) {
+                    $this->transaction->http->request->headers[$key] = '*******';
+                }
+            }
+        }
+
+        if (
+            $this->transaction &&
+            $this->transaction->http &&
+            $this->transaction->http->request &&
+            $this->transaction->http->request->cookies &&
+            count($this->configuration->getHiddenCookies()) > 0
+        ) {
+            foreach ($this->transaction->http->request->cookies as $key => $cookie) {
+                if (in_array($key, $this->configuration->getHiddenCookies())) {
+                    $this->transaction->http->request->cookies[$key] = '*******';
+                }
+            }
+        }
         $this->addEntries($this->transaction);
         return $this->transaction;
     }
